@@ -571,48 +571,7 @@ Server-side AI processing, persistence, fallback handling, and production deploy
 
 ### Security
 
-Firebase authentication, UID-based data isolation, Firestore security rules, server-side secrets, and prompt-injection considerations. For detailed security policies, threat mitigations, and compliance checklists, see **[SECURITY.md](./SECURITY.md)**.
-
----
-
-# Security Policy & Architecture
-
-MindVault enforces strict security at every layer:
-- **Authentication**: Firebase Authentication with Google Sign-In delegates credential handling securely.
-- **Authorization & Data Isolation**: Owner-bound paths (`request.auth.uid == userId`) guarantee multi-tenant boundary integrity.
-- **Secret Hygiene**: Zero hardcoded API keys; runtime injection via Google Cloud Secret Manager.
-- **Prompt Injection Defense**: Untrusted historical journal data is treated strictly as plain data, preventing indirect prompt hijacking.
-- **Audit & Policy**: Read the comprehensive **[SECURITY.md](./SECURITY.md)** document for full threat model analysis, OWASP Top 10 mitigations, and production checklists.
-
----
-
-# Testing & Quality Assurance
-
-MindVault includes a comprehensive automated testing suite covering unit logic, Express API integration, multi-tenant security isolation, Gemini fallback resilience, React frontend components, and end-to-end smoke workflows.
-
-For complete architectural details, coverage breakdowns, and mock strategies, see **[TESTING.md](./TESTING.md)**.
-
-### Quick Test Commands
-
-```bash
-# Run all tests across the suite (14 test files, 101 tests)
-npm test
-
-# Run unit tests only
-npm run test:unit
-
-# Run API integration tests
-npm run test:integration
-
-# Run security & multi-tenant isolation tests
-npm run test:security
-
-# Run frontend component & E2E smoke tests
-npm run test:ui
-
-# Generate test coverage report
-npm run test:coverage
-```
+Firebase authentication, UID-based data isolation, Firestore security rules, server-side secrets, and prompt-injection considerations.
 
 ---
 
