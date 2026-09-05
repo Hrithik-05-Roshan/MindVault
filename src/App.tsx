@@ -20,6 +20,7 @@ import { EntryWorkspace } from './components/EntryWorkspace';
 import { PersonalEvolutionDashboard } from './components/PersonalEvolutionDashboard';
 import { PastSelfChat } from './components/PastSelfChat';
 import { MemoryVaultDashboard } from './components/MemoryVaultDashboard';
+import { MemoryAtlas } from './components/MemoryAtlas';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
@@ -28,7 +29,7 @@ export default function App() {
   const [authError, setAuthError] = useState<string | null>(null);
 
   // Active navigation view
-  const [currentView, setCurrentView] = useState<'journal' | 'evolution' | 'past_self' | 'memory_vault'>('journal');
+  const [currentView, setCurrentView] = useState<'journal' | 'evolution' | 'past_self' | 'memory_vault' | 'memory_atlas'>('journal');
 
   // Journal entries state
   const [entries, setEntries] = useState<JournalEntry[]>([]);
@@ -482,6 +483,22 @@ export default function App() {
             onNavigateToJournal={() => setCurrentView('journal')}
             onSelectEntry={(entry) => {
               setActiveEntry(entry);
+              setCurrentView('journal');
+            }}
+          />
+        </div>
+      ) : currentView === 'memory_atlas' ? (
+        <div className="flex-1 flex overflow-hidden relative z-10">
+          <MemoryAtlas
+            user={currentUser}
+            entries={entries}
+            onSelectEntry={(entry) => {
+              setActiveEntry(entry);
+              setCurrentView('journal');
+            }}
+            onNavigateToJournal={() => setCurrentView('journal')}
+            onNewEntry={() => {
+              handleCreateNewEntry();
               setCurrentView('journal');
             }}
           />

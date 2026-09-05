@@ -17,6 +17,7 @@ import {
   Flame,
   ArrowRight,
   Bookmark,
+  MapPin,
 } from 'lucide-react';
 import type {
   JournalEntry,
@@ -24,8 +25,10 @@ import type {
   MemoryItem,
   MemorySuggestion,
   MemoryCategory,
+  JournalLocation,
 } from '../types';
 import { ReflectionInsightSection } from './ReflectionInsightSection';
+import { LocationSearchModal } from './LocationSearchModal';
 
 interface EntryWorkspaceProps {
   entry: JournalEntry;
@@ -78,6 +81,7 @@ export const EntryWorkspace: React.FC<EntryWorkspaceProps> = ({
 }) => {
   const [chatInput, setChatInput] = useState('');
   const [viewMode, setViewMode] = useState<'split' | 'journal' | 'chat'>('split');
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const chatBottomRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll chat stream
@@ -261,6 +265,40 @@ export const EntryWorkspace: React.FC<EntryWorkspaceProps> = ({
               ))}
             </select>
           </div>
+
+          {/* Optional Location Anchor / Selector */}
+          {entry.location ? (
+            <div className="flex items-center space-x-1.5 bg-violet-950/40 border border-violet-500/40 rounded-xl px-2.5 py-1.5 text-xs text-violet-200">
+              <MapPin className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+              <button
+                id="btn-change-location"
+                onClick={() => setIsLocationModalOpen(true)}
+                title={`Location: ${entry.location.placeName}. Click to change.`}
+                className="font-semibold text-xs text-slate-200 hover:text-white truncate max-w-[110px] sm:max-w-[150px] cursor-pointer"
+              >
+                {entry.location.placeName}
+              </button>
+              <button
+                id="btn-remove-location"
+                onClick={() => onUpdateEntry({ location: undefined })}
+                className="text-slate-400 hover:text-rose-300 ml-1 cursor-pointer font-bold"
+                title="Remove location"
+                aria-label="Remove location"
+              >
+                ✕
+              </button>
+            </div>
+          ) : (
+            <button
+              id="btn-add-location"
+              onClick={() => setIsLocationModalOpen(true)}
+              className="flex items-center space-x-1.5 bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] rounded-xl px-2.5 py-1.5 text-xs text-slate-300 hover:text-white transition-colors cursor-pointer"
+              title="Anchor this reflection to a physical location (optional)"
+            >
+              <MapPin className="w-3.5 h-3.5 text-slate-400" />
+              <span className="hidden sm:inline">Add Location</span>
+            </button>
+          )}
 
           {/* View Mode Toggles */}
           <div className="hidden md:flex items-center bg-white/[0.04] border border-white/[0.08] rounded-xl p-1 text-xs">
@@ -861,6 +899,15 @@ export const EntryWorkspace: React.FC<EntryWorkspaceProps> = ({
           </div>
         </div>
       </div>
+      {/* Modal: Associate Location */}
+      <LocationSearchModal
+        isOpen={isLocationModalOpen}
+        onClose={() => setIsLocationModalOpen(false)}
+        currentLocation={entry.location}
+        onSelectLocation={(loc) => {
+          onUpdateEntry({ location: loc });
+        }}
+      />
     </div>
   );
 };

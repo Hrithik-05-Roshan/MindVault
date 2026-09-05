@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Sparkles, TrendingUp, MessageSquare, Bookmark, LogOut, LogIn, Plus } from 'lucide-react';
+import { BookOpen, Sparkles, TrendingUp, MessageSquare, Bookmark, LogOut, LogIn, Plus, Compass } from 'lucide-react';
 import type { UserProfile } from '../types';
 
 interface NavbarProps {
@@ -8,8 +8,8 @@ interface NavbarProps {
   onSignOut: () => void;
   isAuthenticating: boolean;
   onNewEntry?: () => void;
-  currentView?: 'journal' | 'evolution' | 'past_self' | 'memory_vault';
-  onViewChange?: (view: 'journal' | 'evolution' | 'past_self' | 'memory_vault') => void;
+  currentView?: 'journal' | 'evolution' | 'past_self' | 'memory_vault' | 'memory_atlas';
+  onViewChange?: (view: 'journal' | 'evolution' | 'past_self' | 'memory_vault' | 'memory_atlas') => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -101,6 +101,19 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <Bookmark className="w-3.5 h-3.5 text-indigo-400" />
               <span><span className="hidden xl:inline">Memory </span>Vault</span>
+            </button>
+
+            <button
+              id="tab-nav-memory-atlas"
+              onClick={() => onViewChange('memory_atlas')}
+              className={`flex items-center space-x-2 px-3 xl:px-4 py-1.5 rounded-xl transition-all cursor-pointer whitespace-nowrap ${
+                currentView === 'memory_atlas'
+                  ? 'bg-white/[0.12] text-white shadow-xs border border-white/[0.14] font-bold'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]'
+              }`}
+            >
+              <Compass className="w-3.5 h-3.5 text-rose-400" />
+              <span>Memory Atlas</span>
             </button>
           </nav>
         )}
@@ -234,6 +247,19 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <Bookmark className="w-3.5 h-3.5 text-indigo-400" />
             <span>Vault</span>
+          </button>
+
+          <button
+            id="tab-mobile-memory-atlas"
+            onClick={() => onViewChange('memory_atlas')}
+            className={`flex items-center space-x-1 px-2.5 sm:px-3 py-1.5 rounded-xl transition-all cursor-pointer shrink-0 ${
+              currentView === 'memory_atlas'
+                ? 'bg-white/[0.12] text-white shadow-xs border border-white/[0.14] font-bold'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <Compass className="w-3.5 h-3.5 text-rose-400" />
+            <span>Atlas</span>
           </button>
         </div>
       )}

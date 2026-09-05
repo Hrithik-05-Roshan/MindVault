@@ -16,6 +16,14 @@ export interface ReflectionInsight {
   generatedAt: number;
 }
 
+export interface JournalLocation {
+  placeId?: string;
+  placeName: string;
+  formattedAddress: string;
+  latitude: number;
+  longitude: number;
+}
+
 export interface JournalEntry {
   id: string;
   userId: string;
@@ -24,6 +32,7 @@ export interface JournalEntry {
   mood?: string;
   summary?: string;
   tags?: string[];
+  location?: JournalLocation;
   messages: ChatMessage[];
   reflectionInsight?: ReflectionInsight;
   createdAt: number; // Unix timestamp
