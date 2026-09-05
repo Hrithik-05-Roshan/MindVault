@@ -108,45 +108,7 @@ MindVault is built around authenticated, user-isolated data.
 
 Firestore documents are organized under the authenticated user's namespace:
 
-```text
-/users/{userId}/entries/{entryId}
-/users/{userId}/evolution/{timeRange}
-/users/{userId}/interactions/{interactionId}
-/users/{userId}/past_self/{docId}
-```
 
-Firestore security rules enforce owner-based access:
-
-```javascript
-rules_version = '2';
-
-service cloud.firestore {
-  match /databases/{database}/documents {
-
-    match /users/{userId}/interactions/{interactionId} {
-      allow read, write: if request.auth != null
-        && request.auth.uid == userId;
-    }
-
-    match /users/{userId}/entries/{entryId} {
-      allow read, write: if request.auth != null
-        && request.auth.uid == userId;
-    }
-
-    match /users/{userId}/evolution/{timeRange} {
-      allow read, write: if request.auth != null
-        && request.auth.uid == userId;
-    }
-
-    match /users/{userId}/past_self/{docId} {
-      allow read, write: if request.auth != null
-        && request.auth.uid == userId;
-    }
-  }
-}
-```
-
----
 
 # Architecture
 
@@ -154,13 +116,13 @@ service cloud.firestore {
                     ┌──────────────────────┐
                     │      React UI        │
                     │ Journal / Insights   │
-                    │ Past Self / Memory  │
+                    │ Past Self / Memory   │
                     └──────────┬───────────┘
                                │
                                ▼
                     ┌──────────────────────┐
                     │ Express / Node API   │
-                    │ Authenticated Routes │
+                    │  Gemini Processing  │
                     └──────────┬───────────┘
                                │
                 ┌──────────────┼──────────────┐
@@ -289,7 +251,6 @@ The starter application was expanded through iterative development of custom cap
 - Production-oriented error handling and fallback behavior
 - Cloud Run deployment
 
-The resulting application was refined and tested as a full-stack React and Express application.
 
 # AI Processing
 
