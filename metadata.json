@@ -1,0 +1,6 @@
+{
+  "name": "Journal & Reflections",
+  "description": "A private user-authenticated journal and reflection assistant powered by Firebase and the Gemini API.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
